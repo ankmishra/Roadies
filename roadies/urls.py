@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^signup/$', core_views.signup, name='signup'),
     #url(r'^logusers/$', core_views.logusers, name='logusers'),
     url(r'^location/$', loc_views.home, name='home'),
+    url(r'^latlon/$', loc_views.update, name='update'),
 ]

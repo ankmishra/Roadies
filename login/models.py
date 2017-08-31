@@ -8,6 +8,7 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.TextField(max_length=500, blank=True)
     bio = models.TextField(max_length=500, blank=True)
     lat = models.TextField(max_length=500, blank=True)
     lon = models.TextField(max_length=500, blank=True)
