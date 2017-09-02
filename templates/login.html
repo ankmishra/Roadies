@@ -1,11 +1,31 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% block content %}
- 
+ <style>
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+
+    .bg {
+        /* The image used */
+        background-image: url("{% static 'images/nicolai-berntsen-29454.jpg' %}");
+
+        /* Full height */
+        height: 100%; 
+
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    </style>
+
+   
   {% if form.errors %}
     <p style="color: red">Your username and password didn't match. Please try again.</p>
   {% endif %}
-  <div class="container">
+  <div class="container-fluid bg">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
          <h2>Log in to My Site</h2>

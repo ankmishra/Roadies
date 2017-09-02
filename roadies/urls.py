@@ -18,6 +18,7 @@ from django.contrib.auth import views as auth_views
 
 from login import views as core_views
 from location import views as loc_views
+from chat import views as chat_views
 
 
 urlpatterns = [
@@ -25,7 +26,10 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'login'}, name='logout'),
     url(r'^signup/$', core_views.signup, name='signup'),
+     url(r'^sign$', core_views.sign, name='sign'),
     #url(r'^logusers/$', core_views.logusers, name='logusers'),
     url(r'^location/$', loc_views.home, name='home'),
     url(r'^latlon/$', loc_views.update, name='update'),
+     url(r'^message/$', chat_views.message, name='message'),
+     url(r'^chat/$', chat_views.chat, name='chat'),
 ]

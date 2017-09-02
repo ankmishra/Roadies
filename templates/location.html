@@ -27,7 +27,7 @@
         var myLatLng = {lat: -25.363, lng: 131.044};
         map = new google.maps.Map(document.getElementById('map'), {
           center: myLatLng,
-          zoom: 2
+          zoom:20
         });
     //     var markers = [
     //     ['London Eye, London', 51.503454,-0.119562],
@@ -38,10 +38,28 @@
     var infoWindowContent = [
         ['<div class="info_content">' +
         '<h3>London Eye</h3>' +
-        '<p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p>' +        '</div>'],
+        '<p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p>'+
+          
+         +        '</div>'],
         ['<div class="info_content">' +
-        '<h3>Palace of Westminster</h3>' +
-        '<p>The Palace of Westminster is the meeting place of the House of Commons and the House of Lords, the two houses of the Parliament of the United Kingdom. Commonly known as the Houses of Parliament after its tenants.</p>' +
+        '<h3>Mayank Kaushik</h3>' +
+        '<p>Phone Number : 5854839035</p>' +
+        '<form method="post" action ="/message/">'+
+          "{% csrf_token %}"+
+                '<input type="hidden" name="next" value="{{ next }}" />'+
+                '<p class="bs-component">'+
+                    '<label for="Number">Message</label>'+
+                        '<input type="hidden" name="user" value="ankit" />'+
+                            '<input type="text" class="form-control" name="meeasge">'+
+                            '</p>'+
+           
+              ' <p class="bs-component">'+
+               ' <center>'+
+                '<button type="submit" class ="btn btn-success">Message</button>'+
+                
+                '</center>'+
+                '</p>'+
+              '</form>'+
         '</div>']
     ];
     // Display multiple markers on a map
@@ -60,13 +78,15 @@
         // Allow each marker to have an info window    
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
-                infoWindow.setContent(infoWindowContent[i][0]);
+                infoWindow.setContent(infoWindowContent[1][0]);
                 infoWindow.open(map, marker);
+                
             }
         })(marker, i));
-
+        map.setCenter(position);
+         infoWindow.open(map, marker);
         // Automatically center the map fitting all markers on the screen
-        map.fitBounds(bounds);
+        //map.fitBounds(bounds);
     }
 
     // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
@@ -92,10 +112,10 @@
       });
 
 
-            // infoWindow.setPosition(pos);
+             // infoWindow.setPosition(pos);
             // infoWindow.setContent('ankit location.');
-            // infoWindow.open(map);
-            // map.setCenter(pos);
+            //infoWindow.open(map);
+            // map.setCenter(position);
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });

@@ -3,6 +3,8 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .actuser import get_all_logged_in_users
 from .forms import SignUpForm
+from django.contrib.auth.models import User
+from login.models import Profile
 
 
 @login_required
@@ -21,9 +23,24 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('home')
+            return redirect('sign')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
+
+def sign(request):
+ 	if request.method == 'POST':
+ 		name = request.user.username
+ 		number = request.POST['number']
+ 		location = request.POST['location']
+ 		typer = request.POST['type']
+ 		user_id = User.objects.get(username=request.user).pk
+ 		#obj = Info.objects.get(user_=sub)
+ 		Profile.objects.filter(user_id=user_id).update(name=name,number=number,location=location,typer=typer)
+ 		return redirect('home')
+ 	else:
+ 		form = SignUpForm()
+ 	return render(request, 'signup2.html', {'form': form})
 
 

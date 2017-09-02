@@ -14,6 +14,7 @@ class Profile(models.Model):
     lon = models.TextField(max_length=500, blank=True)
     number = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
+    typer = models.CharField(max_length=30, blank=True)
     date = models.DateField(null=True, blank=True)
 
 

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+ <style>
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+    input {
+    width: 100%;
+    padding: 12px 30px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    background-color: #3CBC8D;
+    color: white;
+    align:right;
+}
+
+    .bg {
+        /* The image used */
+        background-image: url("{% static 'images/nicolai-berntsen-29454.jpg' %}");
+
+        /* Full height */
+        height: 100%; 
+
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    </style>
+
+   
+  {% if form.errors %}
+    <p style="color: red">Your username and password didn't match. Please try again.</p>
+  {% endif %}
+  <div class="container-fluid bg">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+         <h2>Log in to My Site</h2>
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please Sign In</h3>
+                </div>
+                <div class="panel-body">
+
+                        
+                    
+
+
+
+        
+              <form method="post" action ="/sign/">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}" />
+                
+                <p class="bs-component">
+                    <label for="Number">Phone Number</label>
+                            <input type="Number" class="form-control" name="number">
+                            <label for="location">Current Location</label>
+                            <input type="text" class="form-control" name="location">
+                            <label for="type">Type</label>
+                            <input type="text" class="form-control" name="type" placeholder ="driver or rider">
+                            
+                        
+                    
+                </p>
+           
+                <p class="bs-component">
+                <center>
+                <button type="submit" class ="btn btn-success">signup</button>
+                
+                </center>
+                </p>
+              </form>
+             </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
