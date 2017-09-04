@@ -14,7 +14,7 @@ from django.http import JsonResponse
 
 # Create your views here.
 
-def home(request):
+def location(request):
 	if request.user.is_authenticated():
 		sessions = Session.objects.filter(expire_date__gte=timezone.now())
 		uid_list = []
@@ -24,7 +24,7 @@ def home(request):
 			data = session.get_decoded()
 			#obj = Profile.objects.get(user_id=data.get('_auth_user_id', None))
 			#uid_list.append(data.get('_auth_user_id', None))
-			user = Profile.objects.filter(user_id=data.get('_auth_user_id', None)).values('lat','lon')
+			user = Profile.objects.filter(user_id=data.get('_auth_user_id', None)).values('lat','lon','name','number')
 			uid_list.append(Profile.objects.filter(user_id=data.get('_auth_user_id', None)).values('lat','lon'))
 			d.append(list(user))
 		#j = json.loads(r.text)
@@ -33,7 +33,7 @@ def home(request):
 		#location= j['city']
 		#name = request.user.username
 		#user = get_object_or_404(User, pk='1')
-		
+
 		#obj = Info.objects.get(user_=sub)
 		#Profile.objects.filter(user_id=user_id).update(name=name,user_id=user_id,lat=lat,lon=lon,location=location)
 		#loc.save(),{'lat':lat,'lon':lon}
@@ -47,7 +47,7 @@ def home(request):
 	#response = requests.get('https://maps.googleapis.com/maps/api/js?key=AIzaSyCoEaVOtziAEr1bpEeVF07HQvL9PhZsLPA&callback=initMap')
 	#print response.status_code
 	#
-	
+
 	#d =  json.dumps(list(uid_list[0]))
 	#return HttpResponse(d)
 def update(request):
@@ -61,8 +61,3 @@ def update(request):
     	#loc.save()
     	return HttpResponse('sucessfully updated')
 #def latlon(request):
-
-
-
-    
-

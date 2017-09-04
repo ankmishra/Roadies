@@ -123,8 +123,8 @@ USE_TZ = True
 
 APPEND_SLASH = True
 
-    
-LOGIN_REDIRECT_URL = '/' # It means home view
+
+#LOGIN_REDIRECT_URL = '/' # It means home view
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -132,5 +132,5 @@ STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ]
 
 STATIC_URL = '/static/'
 LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
+LOGOUT_URL = '/'
 LOGIN_REDIRECT_URL = 'home'

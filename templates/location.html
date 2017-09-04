@@ -1,20 +1,70 @@
 
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% block content %}
-    <div class = "col-md-9 col-sm-9 col-md-offset-1"  id="map" style="height:400px;"></div>
+<style>
+   body, html {
+       height: 100%;
+       margin: 0;
+   }
+
+   .bg {
+       /* The image used */
+       background-image: url("{% static 'images/sylwia-bartyzel-442.jpg' %}");
+
+       /* Full height */
+       height: 100%;
+
+       /* Center and scale the image nicely */
+       background-position: center;
+       background-repeat: no-repeat;
+       background-size: cover;
+   }
+
+
+   </style>
+
+   <div class = "bg">
+     <div class = "col-md-8 col-sm-8 col-md-offset-2"> <h2>Get Your Cab According To Your  Location Is Here</h2></div>
+    <div class = "col-md-8 col-sm-8 col-md-offset-2"  id="map" style="height:400px;"></div>
+  </div>
     <script>
       // Note: This example requires that you consent to location sharing when
       // prompted by your browser. If you see the error "The Geolocation service
       // failed.", it means you probably did not give permission for the browser to
       // locate you.
        var list = {{d|safe}};
-       
-        //console.log(i[0].lat)
+
+        console.log(list)
         var markers =[];
+        var infoWindowContent = [];
         for( j = 0; j < list.length; j++ ) {
           var i = list[j]
-        markers.push(['lucknew',i[0].lat,i[0].lon])
+        markers.push([i[0].name,i[0].lat,i[0].lon])
+        infoWindowContent.push(
+          '<div class="info_content">' +
+          '<h3>'+i[0].name+'</h3>' +
+          '<p>Phone Number :'+i[0].number+'</p>' +
+          '<form method="post" action ="/message/">'+
+            "{% csrf_token %}"+
+                  '<input type="hidden" name="next" value="{{ next }}" />'+
+                  '<p class="bs-component">'+
+                      '<label for="Number">Message</label>'+
+                          '<input type="hidden" name="user" value="ankit" />'+
+                              '<input type="text" class="form-control" name="meeasge">'+
+                              '</p>'+
+
+                ' <p class="bs-component">'+
+                 ' <center>'+
+                  '<button type="submit" class ="btn btn-success">Message</button>'+
+
+                  '</center>'+
+                  '</p>'+
+                '</form>'+
+          '</div>'
+
+
+        )
       }
        console.log(markers)
       var map, infoWindow;
@@ -33,39 +83,39 @@
     //     ['London Eye, London', 51.503454,-0.119562],
     //     ['Palace of Westminster, London', 51.499633,-0.124755]
     // ];
-          console.log(markers[1][0])              
+          console.log(markers[1][0])
     // Info Window Content
-    var infoWindowContent = [
-        ['<div class="info_content">' +
-        '<h3>London Eye</h3>' +
-        '<p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p>'+
-          
-         +        '</div>'],
-        ['<div class="info_content">' +
-        '<h3>Mayank Kaushik</h3>' +
-        '<p>Phone Number : 5854839035</p>' +
-        '<form method="post" action ="/message/">'+
-          "{% csrf_token %}"+
-                '<input type="hidden" name="next" value="{{ next }}" />'+
-                '<p class="bs-component">'+
-                    '<label for="Number">Message</label>'+
-                        '<input type="hidden" name="user" value="ankit" />'+
-                            '<input type="text" class="form-control" name="meeasge">'+
-                            '</p>'+
-           
-              ' <p class="bs-component">'+
-               ' <center>'+
-                '<button type="submit" class ="btn btn-success">Message</button>'+
-                
-                '</center>'+
-                '</p>'+
-              '</form>'+
-        '</div>']
-    ];
+    // var infoWindowContent = [
+    //     ['<div class="info_content">' +
+    //     '<h3>London Eye</h3>' +
+    //     '<p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p>'+
+    //
+    //      +        '</div>'],
+    //     ['<div class="info_content">' +
+    //     '<h3>Mayank Kaushik</h3>' +
+    //     '<p>Phone Number : 5854839035</p>' +
+    //     '<form method="post" action ="/message/">'+
+    //       "{% csrf_token %}"+
+    //             '<input type="hidden" name="next" value="{{ next }}" />'+
+    //             '<p class="bs-component">'+
+    //                 '<label for="Number">Message</label>'+
+    //                     '<input type="hidden" name="user" value="ankit" />'+
+    //                         '<input type="text" class="form-control" name="meeasge">'+
+    //                         '</p>'+
+    //
+    //           ' <p class="bs-component">'+
+    //            ' <center>'+
+    //             '<button type="submit" class ="btn btn-success">Message</button>'+
+    //
+    //             '</center>'+
+    //             '</p>'+
+    //           '</form>'+
+    //     '</div>']
+    // ];
     // Display multiple markers on a map
     var infoWindow = new google.maps.InfoWindow(), marker, i;
-    
-    // Loop through our array of markers & place each one on the map  
+
+    // Loop through our array of markers & place each one on the map
     for( i = 0; i < markers.length; i++ ) {
         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
         bounds.extend(position);
@@ -74,13 +124,13 @@
             map: map,
             title: markers[i][0]
         });
-        
-        // Allow each marker to have an info window    
+
+        // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
-                infoWindow.setContent(infoWindowContent[1][0]);
+                infoWindow.setContent(infoWindowContent[i]);
                 infoWindow.open(map, marker);
-                
+
             }
         })(marker, i));
         map.setCenter(position);
@@ -137,5 +187,5 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbWh2oyiNEbeCp_jX9AitfmAQGQERBR2A&callback=initMap">
     </script>
 
-     
+
   {% endblock %}

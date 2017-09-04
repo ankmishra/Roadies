@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from login.models import Profile
 
 
-@login_required
+#@login_required
 def home(request):
     return render(request, 'home.html')
 
@@ -42,5 +42,3 @@ def sign(request):
  	else:
  		form = SignUpForm()
  	return render(request, 'signup2.html', {'form': form})
-
-
